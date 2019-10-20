@@ -1,0 +1,142 @@
+---
+title: "Example Rmd presentation"
+author: "David"
+date: "`r Sys.Date()`"
+output: 
+        revealjs::revealjs_presentation:
+          df_print: paged
+          theme: moon
+          transition: zoom
+          self_contained: false
+          reveal_plugins: ["chalkboard"]
+          reveal_options:
+            chalkboard:
+              theme: whiteboard
+---
+
+
+```{r setup, include = FALSE}
+# knitr options
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warn = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+# set root directory to project root
+
+# put it in the directory that contains the ENTIRE PROJECT
+knitr::opts_knit$set(root.dir = "..")
+# library ALWAYS GOES IN RMD
+library(tidyverse)
+library(dplyr)
+```
+
+# Section Header here
+
+## Here is a slide {.smaller}
+here is some text
+
+## Here is another slide
+
+## Here are some bullets
+
+* bullet 1
+
+* bullet 2
+
+## Lets do bullets incrementally
+
+>- bullet 1
+
+>- bullet 2
+
+## Another way {.build}
+
+- bullet
+
+- bullet
+
+# Loading in data
+
+## Just as normal
+
+```{r dataload}
+theData <- read.csv("data/demo.csv")
+
+theData
+```
+
+
+- RELATIVE PATHS
+
+>- YOU ARE NOT WORKING ALONE
+
+## Working on data
+
+- Do it normally
+
+```{r dataManipulate}
+library(tidyverse)
+dataClean <- theData %>% select(COUNT_MALE, COUNT_FEMALE)
+dataClean
+```
+
+# images
+
+```{r image}
+
+# ignores root.dir, have to type full relative path
+knitr::include_graphics("../images/dropout.png")
+
+```
+
+Here is something describing the image
+
+# Plots
+
+## Plots with ggplot
+
+
+```{r ggplotting, fig.cap = "a plot", fig.width = 7, fig.height = 7}
+library(ggthemes)
+ggplot(dataClean)  + geom_histogram(aes(x = COUNT_MALE), fill = "blue", alpha = 0.5) +
+  geom_histogram(aes(x = COUNT_FEMALE), fill = "red", alpha = 0.5) + theme_hc()
+
+```
+
+
+# External R code
+
+##  Steps
+ 
+1. Special @knitr comments
+
+2. read_chunk(path to file)
+
+3. Name your chunk same thing you named in special comment
+
+4. Magic
+
+## Including the code
+
+
+
+```{r chunkread}
+knitr::read_chunk("R/example.R")
+```
+
+
+```{r highchart1}
+```
+
+# Why will my file not knit
+
+## Answer one
+
+Check file paths
+
+## ANswer two
+
+DO NOT PUT INSTALL.PACKAGES IN AN RMD
+
+```{r}
+spongebobsay("Hello")
+```
